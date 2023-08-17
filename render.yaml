@@ -1,5 +1,5 @@
 services:
-  - name: your-service-name
+  - name: service-chat
     plan: auto
     buildCommand: npm install
     startCommand: npm start
