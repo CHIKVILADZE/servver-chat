@@ -1,18 +1,25 @@
 const express = require('express');
 const app = express();
-const httpServer = require('http').createServer();
-const io = require('socket.io')(httpServer, {
-  cors: {
-    origin: '*',
-  },
-});
+const httpServer = require('http').createServer(app); // Pass 'app' to createServer
+const io = require('socket.io')(httpServer);
+const cors = require('cors'); // Import the cors middleware
 const mysql = require('mysql2');
+require('dotenv').config();
+
+app.use(
+  cors({
+    origin: 'https://chat-client-ruddy.vercel.app',
+    // Replace with your frontend's domain
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // Allow sending cookies and other credentials
+  })
+);
 
 const dbConnection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'users',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 
 dbConnection.connect((err) => {
@@ -52,5 +59,5 @@ io.on('connection', (socket) => {
 });
 
 httpServer.listen(3001, () => {
-  console.log('Server listen on port 3001');
+  console.log(`Server listen on port 3001`);
 });
