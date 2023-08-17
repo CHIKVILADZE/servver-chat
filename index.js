@@ -53,6 +53,6 @@ io.on('connection', (socket) => {
   });
 });
 
-httpServer.listen(3001, () => {
-  console.log('Server listen on port 3001');
+httpServer.listen(3002, () => {
+  console.log('Server listen on port 3002');
 });
