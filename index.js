@@ -1,19 +1,17 @@
 const express = require('express');
 const app = express();
-const httpServer = require('http').createServer(app); // Pass 'app' to createServer
-const io = require('socket.io')(httpServer);
 const cors = require('cors'); // Import the cors middleware
 const mysql = require('mysql2');
 require('dotenv').config();
+const httpServer = require('http').createServer(app); // Pass 'app' to createServer
 
-app.use(
-  cors({
+const io = require('socket.io')(httpServer, {
+  cors: {
     origin: 'https://chat-client-ruddy.vercel.app',
-    // Replace with your frontend's domain
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, // Allow sending cookies and other credentials
-  })
-);
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+});
 
 const dbConnection = mysql.createConnection({
   host: process.env.DB_HOST,
