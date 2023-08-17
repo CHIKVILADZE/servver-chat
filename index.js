@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-require('dotenv').config();
 const httpServer = require('http').createServer();
 const io = require('socket.io')(httpServer, {
   cors: {
@@ -10,10 +9,10 @@ const io = require('socket.io')(httpServer, {
 const mysql = require('mysql2');
 
 const dbConnection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  host: 'bziuciuutpsvztffxyg8-mysql.services.clever-cloud.com',
+  user: 'u3ivuv41nbrkodol',
+  password: '6UOPKg3Uy0jFZlGfCIXS',
+  database: 'bziuciuutpsvztffxyg8',
 });
 
 dbConnection.connect((err) => {
