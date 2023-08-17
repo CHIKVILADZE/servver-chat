@@ -3,7 +3,7 @@ const app = express();
 const httpServer = require('http').createServer();
 const io = require('socket.io')(httpServer, {
   cors: {
-    origin: 'https://chat-client-ruddy.vercel.app',
+    origin: '*',
   },
 });
 const mysql = require('mysql2');
