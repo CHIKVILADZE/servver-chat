@@ -29,32 +29,23 @@ dbConnection.connect((err) => {
   }
 });
 
-dbConnection.query(
-  sql,
-  [args.author, args.message],
-  { timeout: 10000 },
-  (err, result) => {
-    if (err) {
-      console.error('Error saving message to the database:', err);
-    } else {
-      console.log('Message saved to the database');
-      socket.broadcast.emit('chat', args);
-    }
-  }
-);
-
 io.on('connection', (socket) => {
   socket.on('chat', (args) => {
     const sql =
       'INSERT INTO bziuciuutpsvztffxyg8.chat (author, message) VALUES (?, ?)';
-    dbConnection.query(sql, [args.author, args.message], (err, result) => {
-      if (err) {
-        console.error('Error saving message to the database:', err);
-      } else {
-        console.log('Message saved to the database');
-        socket.broadcast.emit('chat', args);
+    dbConnection.query(
+      sql,
+      [args.author, args.message],
+      { timeout: 10000 },
+      (err, result) => {
+        if (err) {
+          console.error('Error saving message to the database:', err);
+        } else {
+          console.log('Message saved to the database');
+          socket.broadcast.emit('chat', args);
+        }
       }
-    });
+    );
   });
 
   socket.on('fetchMessages', () => {
