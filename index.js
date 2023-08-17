@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 const httpServer = require('http').createServer();
 const io = require('socket.io')(httpServer, {
   cors: {
@@ -9,10 +10,10 @@ const io = require('socket.io')(httpServer, {
 const mysql = require('mysql2');
 
 const dbConnection = mysql.createConnection({
-  host: 'bziuciuutpsvztffxyg8-mysql.services.clever-cloud.com',
-  user: 'u3ivuv41nbrkodol',
-  password: '6UOPKg3Uy0jFZlGfCIXS',
-  database: 'bziuciuutpsvztffxyg8',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 
 dbConnection.connect((err) => {
@@ -25,8 +26,7 @@ dbConnection.connect((err) => {
 
 io.on('connection', (socket) => {
   socket.on('chat', (args) => {
-    const sql =
-      'INSERT INTO chat.chat_messages (author, message) VALUES (?, ?)';
+    const sql = 'INSERT INTO chat_messages (author, message) VALUES (?, ?)';
     dbConnection.query(sql, [args.author, args.message], (err, result) => {
       if (err) {
         console.error('Error saving message to the database:', err);
@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('fetchMessages', () => {
-    const fetchMessagesSQL = 'SELECT author, message FROM chat.chat_messages';
+    const fetchMessagesSQL = 'SELECT author, message FROM chat_messages';
     dbConnection.query(fetchMessagesSQL, (err, results) => {
       if (err) {
         console.error('Error fetching messages from the database:', err);
