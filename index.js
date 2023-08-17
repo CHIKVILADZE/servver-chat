@@ -32,7 +32,8 @@ dbConnection.connect((err) => {
 
 io.on('connection', (socket) => {
   socket.on('chat', (args) => {
-    const sql = 'INSERT INTO chat (author, message) VALUES (?, ?)';
+    const sql =
+      'INSERT INTO bziuciuutpsvztffxyg8.chat (author, message) VALUES (?, ?)';
     dbConnection.query(sql, [args.author, args.message], (err, result) => {
       if (err) {
         console.error('Error saving message to the database:', err);
@@ -45,7 +46,8 @@ io.on('connection', (socket) => {
 
   // When a fetchMessages event is received:
   socket.on('fetchMessages', () => {
-    const fetchMessagesSQL = 'SELECT author, message FROM chat';
+    const fetchMessagesSQL =
+      'SELECT author, message FROM bziuciuutpsvztffxyg8.chat';
     dbConnection.query(fetchMessagesSQL, (err, results) => {
       if (err) {
         console.error('Error fetching messages from the database:', err);
