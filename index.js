@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
-const cors = require('cors'); // Import the cors middleware
+const cors = require('cors');
 const mysql = require('mysql2');
 require('dotenv').config();
-const httpServer = require('http').createServer(app); // Pass 'app' to createServer
+const httpServer = require('http').createServer(app);
 
 const io = require('socket.io')(httpServer, {
   cors: {
@@ -42,7 +42,6 @@ io.on('connection', (socket) => {
     });
   });
 
-  // When a fetchMessages event is received:
   socket.on('fetchMessages', () => {
     const fetchMessagesSQL =
       'SELECT author, message FROM bziuciuutpsvztffxyg8.chat';
@@ -51,7 +50,6 @@ io.on('connection', (socket) => {
         console.error('Error fetching messages from the database:', err);
       } else {
         console.log('Messages fetched from the database:', results);
-        // Emit the fetched messages back to the client
         socket.emit('fetchedMessages', results);
       }
     });
