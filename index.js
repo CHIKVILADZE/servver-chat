@@ -21,6 +21,14 @@ const dbConnection = mysql.createConnection({
   connectTimeout: 15000,
 });
 
+dbConnection.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the database:', err);
+  } else {
+    console.log('Connected to the database');
+  }
+});
+
 dbConnection.query(
   sql,
   [args.author, args.message],
